@@ -10,7 +10,7 @@ git clone https://github.com/andrewjungg/snapmap.git
 
 ### Client Code
 ```bash
-cd snapmap/client
+cd snapmap/client/snapmap
 npm i
 npm start
 ## if you have xcode downloaded you can run it in the emulator by pressing i
