@@ -4,6 +4,7 @@ import { Text, StyleSheet } from 'react-native';
 import firebase from 'firebase';
 
 import HeatMap from './HeatMap';
+import List from './List';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -24,7 +25,7 @@ export default class Home extends React.Component {
             <Text style={styles.buttonText}>Upload Picture</Text>
           </Button>
           <HeatMap />
-          <Text style={styles.listTitle}>List of Possible Locations</Text>
+          <List />
           <Button
             block
             style={styles.button}
