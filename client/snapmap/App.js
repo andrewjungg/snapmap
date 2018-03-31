@@ -1,10 +1,11 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Container, Header, Content, Spinner, Title } from 'native-base';
-import { View } from 'react-native';
+import { Container, Header, Content, Spinner, Title, Button } from 'native-base';
 import firebase from 'firebase';
+import { Text, StyleSheet, View } from 'react-native';
 
-import LoginForm from './components/LoginForm'
+import LoginForm from './components/LoginForm';
+import Home from './components/Home';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -39,7 +40,7 @@ export default class App extends React.Component {
       case true:
         return (
           <Container>
-            <Text>Foobar</Text>
+            <Home />
           </Container>
         );
 
@@ -47,7 +48,7 @@ export default class App extends React.Component {
         return (
           <Container>
             <Header>
-              <Title>Log In</Title>
+              <Title style={styles.margin}>Log In</Title>
             </Header>
             <LoginForm />
           </Container>
@@ -70,3 +71,9 @@ export default class App extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  margin: {
+    margin: 10
+  }
+});
