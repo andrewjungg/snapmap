@@ -3,9 +3,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Container, Header, Content, Spinner, Title, Button } from 'native-base';
 import firebase from 'firebase';
 import { Text, StyleSheet, View } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
 import LoginForm from './components/LoginForm';
 import Home from './components/Home';
+import Settings from './components/Settings';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -39,9 +41,7 @@ export default class App extends React.Component {
     switch (this.state.loggedIn) {
       case true:
         return (
-          <Container>
-            <Home />
-          </Container>
+          <RootStack />
         );
 
       case false:
@@ -77,3 +77,20 @@ const styles = StyleSheet.create({
     margin: 10
   }
 });
+
+const RootStack = StackNavigator(
+  {
+    Home: {
+      screen: Home,
+    },
+    Settings: {
+      screen: Settings,
+    },
+  },
+  {
+    initialRouteName: 'Home',
+  },
+  {
+    headerMode: 'screen'
+  }
+);

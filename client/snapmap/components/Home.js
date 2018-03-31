@@ -1,24 +1,41 @@
 import React from 'react';
-import { Container, Content, Header, Button, Title} from 'native-base';
-import { Text, StyleSheet } from 'react-native';
-import firebase from 'firebase';
+import { Container, Content, Button, Title, Body, Right, Left, Header } from 'native-base';
+import { View, Text, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/EvilIcons';
 
 import HeatMap from './HeatMap';
 import List from './List';
+import Settings from './Settings';
 
 export default class Home extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
     };
   }
 
+  static navigationOptions = {
+    header: <View />
+  };
+
   render() {
     const { error, loading } = this.state;
     return (
       <Container>
         <Header>
-          <Title style={styles.margin}>SnapMap</Title>
+          <Left />
+          <Body>
+            <Title>SnapMap</Title>
+          </Body>
+          <Right>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.navigate('Settings')}
+            >
+              <Icon name='gear' size={30}/>
+            </Button>
+          </Right>
         </Header>
         <Content style={styles.margin}>
           <Button block style={styles.button}>
@@ -26,13 +43,6 @@ export default class Home extends React.Component {
           </Button>
           <HeatMap />
           <List />
-          <Button
-            block
-            style={styles.button}
-            dark
-            onPress={() => firebase.auth().signOut()}>
-            <Text style={styles.buttonText}>Sign Out</Text>
-          </Button>
         </Content>
       </Container>
     );
@@ -41,11 +51,6 @@ export default class Home extends React.Component {
 
 const styles = StyleSheet.create({
   margin: {
-    margin: 10
-  },
-  listTitle: {
-    textAlign: 'center',
-    fontSize: 18,
     margin: 10
   },
   button: {
