@@ -1,7 +1,10 @@
 import React from 'react';
 import { Container, Content, Button, Title, Body, Right, Left, Header } from 'native-base';
-import { View, Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
+
+// import { retrieveResults } from '../../../server/cloud-vision-server.js';
+// import { foo } from '../../foo.js';
 
 import HeatMap from './HeatMap';
 import List from './List';
@@ -16,7 +19,7 @@ export default class Home extends React.Component {
   }
 
   static navigationOptions = {
-    header: <View />
+    header: null
   };
 
   render() {

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Container, Content, Header, Button, Left, Right, Body, Title } from 'native-base';
-import { View, Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import { StackNavigator } from 'react-navigation';
 import firebase from 'firebase';
 
 export default class Settings extends React.Component {
   static navigationOptions = {
-    header: <View />,
+    header: null,
   };
 
   constructor(props) {
