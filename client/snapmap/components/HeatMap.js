@@ -9,49 +9,17 @@ export default class Maps extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      region: {
-        latitude: 43.472355,
-        longitude: -80.544911,
-        latitudeDelta: 0.0042,
-        longitudeDelta: 0.0041
-      },
-      markers: [
-        {
-          coordinate: {
-            latitude: 43.472355,
-            longitude: -80.544911
-          },
-          title: 'University of Waterloo',
-          description: 'Geese breeding ground'
-        },
-        {
-          coordinate: {
-            latitude: 43.642760,
-            longitude: -79.387003
-          },
-          title: 'CN Tower',
-          description: 'Drake was here'
-        },
-        {
-          coordinate: {
-            latitude: 37.785990,
-            longitude: -122.400632
-          },
-          title: 'SF MOMA',
-          description: 'Much art'
-        }
-      ]
     };
   }
 
   render() {
-    const { region, markers } = this.state;
+    const { region, markers } = this.props;
     return (
       <MapView
         style={styles.map}
         scrollEnabled
         zoomEnabled
-        initialRegion={region}
+        region={region}
       >
         {map(markers, (marker, key) => {
           const { coordinate, title, description } = marker;

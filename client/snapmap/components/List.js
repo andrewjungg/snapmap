@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, ListItem, Body, Right } from 'native-base';
+import { List, ListItem, Left, Right, Button } from 'native-base';
 import { View, Text, StyleSheet } from 'react-native';
 
 export default class Home extends React.Component {
@@ -10,35 +10,22 @@ export default class Home extends React.Component {
   }
 
   render() {
-    const locationsArr = [
-      {
-        location: 'Waterloo',
-        chance: '50%'
-      },
-      {
-        location: 'Toronto',
-        chance: '44%'
-      },
-      {
-        location: 'San Francisco',
-        chance: '33%'
-      },
-    ];
+    const { locations } = this.props;
     return (
       <View style={styles.list}>
         <Text style={styles.listTitle}>List of Possible Locations</Text>
-        <List dataArray={locationsArr}
+        <List dataArray={locations}
           renderRow={data =>
-            <ListItem>
-              <Body>
-                <Text>{data.location}</Text>
-              </Body>
+            <ListItem onPress={() => this.props.updateMap(data.coordinate)}>
+              <Left>
+                <Text>{data.title}</Text>
+              </Left>
               <Right>
                 <Text>{data.chance}</Text>
               </Right>
             </ListItem>
-          }>
-        </List>
+          }
+        />
       </View>
     );
   }

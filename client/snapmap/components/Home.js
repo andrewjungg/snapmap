@@ -12,18 +12,64 @@ import Settings from './Settings';
 
 export default class Home extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
   static navigationOptions = {
     header: null
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      locations: [
+        {
+          coordinate: {
+            latitude: 43.472355,
+            longitude: -80.544911
+          },
+          title: 'University of Waterloo',
+          description: 'Geese breeding ground',
+          chance: '50%'
+        },
+        {
+          coordinate: {
+            latitude: 43.642760,
+            longitude: -79.387003
+          },
+          title: 'CN Tower',
+          description: 'Drake was here',
+          chance: '44%'
+        },
+        {
+          coordinate: {
+            latitude: 37.785990,
+            longitude: -122.400632
+          },
+          title: 'SF MOMA',
+          description: 'Much art',
+          chance: '33%'
+        }
+      ],
+      region: {
+        latitude: 43.472355,
+        longitude: -80.544911,
+        latitudeDelta: 0.0042,
+        longitudeDelta: 0.0041
+      },
+    };
+
+    this.updateMap = this.updateMap.bind(this);
+  }
+
+  updateMap(coordinate) {
+    this.setState({
+      region: {
+        ...this.state.region,
+        ...coordinate
+      }
+    });
+  }
+
   render() {
-    const { error, loading } = this.state;
+    const { error, loading, locations, region } = this.state;
     return (
       <Container>
         <Header>
@@ -44,8 +90,8 @@ export default class Home extends React.Component {
           <Button block style={styles.button}>
             <Text style={styles.buttonText}>Upload Picture</Text>
           </Button>
-          <HeatMap />
-          <List />
+          <HeatMap markers={locations} region={region} />
+          <List locations={locations} updateMap={this.updateMap}/>
         </Content>
       </Container>
     );
