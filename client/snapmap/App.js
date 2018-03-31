@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Container, Header, Content, Spinner, Title, Button } from 'native-base';
+import { Root, Container, Header, Content, Spinner, Title, Button } from 'native-base';
 import firebase from 'firebase';
 import { Text, StyleSheet, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
@@ -41,7 +41,9 @@ export default class App extends React.Component {
     switch (this.state.loggedIn) {
       case true:
         return (
-          <RootStack />
+          <Root>
+            <RootStack />
+          </Root>
         );
 
       case false:

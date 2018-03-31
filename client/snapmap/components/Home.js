@@ -1,14 +1,14 @@
 import React from 'react';
 import { Container, Content, Button, Title, Body, Right, Left, Header } from 'native-base';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, Image, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
-
-// import { retrieveResults } from '../../../server/cloud-vision-server.js';
-// import { foo } from '../../foo.js';
+import { ImagePicker } from 'expo';
 
 import HeatMap from './HeatMap';
 import List from './List';
 import Settings from './Settings';
+
+const { width, height } = Dimensions.get('window');
 
 export default class Home extends React.Component {
 
@@ -19,6 +19,9 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      image: {
+        uri: null
+      },
       locations: [
         {
           coordinate: {
@@ -57,6 +60,7 @@ export default class Home extends React.Component {
     };
 
     this.updateMap = this.updateMap.bind(this);
+    this.uploadImage = this.uploadImage.bind(this);
   }
 
   updateMap(coordinate) {
@@ -68,8 +72,24 @@ export default class Home extends React.Component {
     });
   }
 
+  uploadImage = async () => {
+    const options = {
+      mediaTypes: 'Images',
+      allowsEditing: false
+    };
+    let result = await ImagePicker.launchImageLibraryAsync(options);
+
+    if (!result.cancelled) {
+      this.setState({
+        image: {
+          uri: result.uri
+        }
+      });
+    }
+  };
+
   render() {
-    const { error, loading, locations, region } = this.state;
+    const { error, loading, locations, region, image } = this.state;
     return (
       <Container>
         <Header>
@@ -87,7 +107,16 @@ export default class Home extends React.Component {
           </Right>
         </Header>
         <Content style={styles.margin}>
-          <Button block style={styles.button}>
+          {image.uri &&
+            <Image
+              style={styles.image}
+              source={image}
+            />
+          }
+          <Button
+            block
+            onPress={this.uploadImage}
+            style={styles.button}>
             <Text style={styles.buttonText}>Upload Picture</Text>
           </Button>
           <HeatMap markers={locations} region={region} />
@@ -109,4 +138,9 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18
   },
+  image: {
+    width,
+    height: 200,
+    marginBottom: 10
+  }
 });

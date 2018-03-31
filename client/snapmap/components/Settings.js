@@ -1,9 +1,13 @@
 import React from 'react';
-import { Container, Content, Header, Button, Left, Right, Body, Title } from 'native-base';
+import { Container, Content, Header, Button, Left, Right, Body, Title, ActionSheet } from 'native-base';
 import { Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import { StackNavigator } from 'react-navigation';
 import firebase from 'firebase';
+
+const BUTTONS = ['Delete', 'Cancel'];
+const DELETE_INDEX = 0;
+const CANCEL_INDEX = 1;
 
 export default class Settings extends React.Component {
   static navigationOptions = {
@@ -13,7 +17,20 @@ export default class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      error: ''
     };
+    this.deleteAccount = this.deleteAccount.bind(this)
+  }
+
+  deleteAccount() {
+    const user = firebase.auth().currentUser;
+    user.delete().then(() => {
+      return;
+    }).catch((error) => {
+      this.setState({
+        error: 'Error has occurred.'
+      })
+    })
   }
 
   render() {
@@ -33,7 +50,28 @@ export default class Settings extends React.Component {
           </Body>
           <Right />
         </Header>
+
         <Content style={styles.margin}>
+          <Button
+            block
+            style={styles.button}
+            danger
+            onPress={() =>
+            ActionSheet.show(
+              {
+                options: BUTTONS,
+                cancelButtonIndex: 1,
+                destructiveButtonIndex: 0,
+                title: "Delete account? This can't be undone."
+              },
+              buttonIndex => {
+                if (buttonIndex === DELETE_INDEX) {
+                  this.deleteAccount();
+                }
+              }
+            )}>
+            <Text style={styles.buttonText}>Delete Account</Text>
+          </Button>
           <Button
             block
             style={styles.button}
