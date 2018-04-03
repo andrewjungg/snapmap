@@ -77,7 +77,7 @@ export default class LoginForm extends React.Component {
             </Item>
           </Form>
           {this.state.loading ?
-            <Spinner /> :
+            <Spinner color='#5a9bd2' /> :
             <Button
               style={styles.margin}
               primary
