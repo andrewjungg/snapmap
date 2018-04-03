@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Content, Button, Title, Body, Right, Left, Header } from 'native-base';
 import { Text, StyleSheet, Image, Dimensions } from 'react-native';
-import Icon from 'react-native-vector-icons/EvilIcons';
+import { EvilIcons } from '@expo/vector-icons';
 import { ImagePicker } from 'expo';
 
 import HeatMap from './HeatMap';
@@ -104,7 +104,7 @@ export default class Home extends React.Component {
               transparent
               onPress={() => this.props.navigation.navigate('Settings')}
             >
-              <Icon name='gear' size={30}/>
+              <EvilIcons name='gear' size={30}/>
             </Button>
           </Right>
         </Header>

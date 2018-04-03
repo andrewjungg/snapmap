@@ -3,9 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "jest-expo": "25.0.0",
+    "jest-expo": "^26.0.0",
     "react-native-scripts": "1.11.1",
     "react-test-renderer": "16.2.0"
   },
@@ -15,10 +13,13 @@
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
-    "test": "node node_modules/jest/bin/jest.js"
+    "test": "node_modules/.bin/jest --watch"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-navigation|react-native|expo|@expo|native-base)"
+    ]
   },
   "dependencies": {
     "expo": "^25.0.0",
@@ -27,7 +28,6 @@
     "native-base": "^2.4.1",
     "react": "16.2.0",
     "react-native": "0.52.0",
-    "react-native-vector-icons": "^4.5.0",
     "react-navigation": "^1.5.8"
   }
 }

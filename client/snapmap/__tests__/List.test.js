@@ -1,8 +1,8 @@
 import React from 'react';
-import App from '../App';
+import List from '../components/List';
 import renderer from 'react-test-renderer';
 
 test('renders correctly', () => {
-  const tree = renderer.create(<App />).toJSON();
+  const tree = renderer.create(<List />).toJSON();
   expect(tree).toMatchSnapshot();
 });

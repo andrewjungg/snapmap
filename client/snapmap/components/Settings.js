@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Content, Header, Button, Left, Right, Body, Title, ActionSheet } from 'native-base';
 import { Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/EvilIcons';
+import { EvilIcons } from '@expo/vector-icons';
 import { StackNavigator } from 'react-navigation';
 import firebase from 'firebase';
 
@@ -42,7 +42,7 @@ export default class Settings extends React.Component {
               transparent
               onPress={() => this.props.navigation.goBack()}
               >
-              <Icon name='chevron-left' size={30}/>
+              <EvilIcons name='chevron-left' size={30}/>
             </Button>
           </Left>
           <Body>

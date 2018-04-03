@@ -1,5 +1,4 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons';
 import { Root, Container, Header, Content, Spinner, Title, Button } from 'native-base';
 import firebase from 'firebase';
 import { Text, StyleSheet, View } from 'react-native';
