@@ -99,7 +99,7 @@ export default class Home extends React.Component {
           image: {
             uri: result.uri,
           },
-          error: '',
+          error: null,
           loading: false
         });
         this.updateResults() // update region and locations
