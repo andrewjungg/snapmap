@@ -59,7 +59,7 @@ export default class App extends React.Component {
       default:
         return (
           <Content>
-            <Spinner />
+            <Spinner color='#5a9bd2' />
           </Content>
         );
     }

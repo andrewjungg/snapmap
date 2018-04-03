@@ -75,11 +75,13 @@ export default class Home extends React.Component {
   uploadImage = async () => {
     const options = {
       mediaTypes: 'Images',
-      allowsEditing: false
+      allowsEditing: false,
+      base64: true
     };
     let result = await ImagePicker.launchImageLibraryAsync(options);
 
     if (!result.cancelled) {
+      // send base 64 image to server here //
       this.setState({
         image: {
           uri: result.uri
