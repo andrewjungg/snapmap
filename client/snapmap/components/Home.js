@@ -1,8 +1,9 @@
 import React from 'react';
-import { Container, Content, Button, Title, Body, Right, Left, Header } from 'native-base';
+import { Container, Content, Button, Title, Body, Right, Left, Header, Spinner} from 'native-base';
 import { Text, StyleSheet, Image, Dimensions } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 import { ImagePicker } from 'expo';
+import axios from 'axios';
 
 import HeatMap from './HeatMap';
 import List from './List';
@@ -19,6 +20,8 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      error: null,
+      loading: false,
       image: {
         uri: null
       },
@@ -61,6 +64,7 @@ export default class Home extends React.Component {
 
     this.updateMap = this.updateMap.bind(this);
     this.uploadImage = this.uploadImage.bind(this);
+    this.updateResults = this.updateResults.bind(this);
   }
 
   updateMap(coordinate) {
@@ -81,14 +85,37 @@ export default class Home extends React.Component {
     let result = await ImagePicker.launchImageLibraryAsync(options);
 
     if (!result.cancelled) {
-      // send base 64 image to server here //
       this.setState({
-        image: {
-          uri: result.uri
-        }
+        loading: true
+      });
+      // send base 64 image to server here //
+      axios.post('https://snapmap-syde322.herokuapp.com/preprocessImage', {
+        preprocessedImage: [{
+          pp_IMG: result.base64
+        }]
+      })
+      .then((response) => {
+        this.setState({
+          image: {
+            uri: result.uri,
+          },
+          error: '',
+          loading: false
+        });
+        this.updateResults() // update region and locations
+      })
+      .catch((error) => {
+        this.setState({
+          error: 'Failed to Upload',
+          loading: false
+        });
       });
     }
   };
+
+  updateResults() {
+    // order results, and set new state
+  }
 
   render() {
     const { error, loading, locations, region, image } = this.state;
@@ -109,18 +136,25 @@ export default class Home extends React.Component {
           </Right>
         </Header>
         <Content style={styles.margin}>
-          {image.uri &&
+          {image.uri && !error &&
             <Image
               style={styles.image}
               source={image}
             />
           }
-          <Button
-            block
-            onPress={this.uploadImage}
-            style={styles.button}>
-            <Text style={styles.buttonText}>Upload Picture</Text>
-          </Button>
+          { error &&
+            <Text style={styles.error}>{error}</Text>
+          }
+          { !loading ?
+            <Button
+              block
+              large
+              onPress={this.uploadImage}
+              style={styles.button}>
+              <Text style={styles.buttonText}>Upload Picture</Text>
+            </Button> :
+            <Spinner color='#5a9bd2' />
+          }
           <HeatMap markers={locations} region={region} />
           <List locations={locations} updateMap={this.updateMap}/>
         </Content>
@@ -143,6 +177,12 @@ const styles = StyleSheet.create({
   image: {
     width,
     height: 200,
+    marginBottom: 10
+  },
+  error: {
+    color: 'red',
+    textAlign: 'center',
+    fontSize: 18,
     marginBottom: 10
   }
 });
