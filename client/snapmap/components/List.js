@@ -21,7 +21,7 @@ export default class Home extends React.Component {
                 <Text>{data.title}</Text>
               </Left>
               <Right>
-                <Text>{data.chance}</Text>
+                <Text>{data.chance}%</Text>
               </Right>
             </ListItem>
           }

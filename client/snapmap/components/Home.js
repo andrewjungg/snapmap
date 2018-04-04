@@ -4,6 +4,7 @@ import { Text, StyleSheet, Image, Dimensions } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 import { ImagePicker } from 'expo';
 import axios from 'axios';
+import { map } from 'lodash';
 
 import HeatMap from './HeatMap';
 import List from './List';
@@ -32,8 +33,7 @@ export default class Home extends React.Component {
             longitude: -80.544911
           },
           title: 'University of Waterloo',
-          description: 'Geese breeding ground',
-          chance: '50%'
+          chance: 55
         },
         {
           coordinate: {
@@ -41,8 +41,7 @@ export default class Home extends React.Component {
             longitude: -79.387003
           },
           title: 'CN Tower',
-          description: 'Drake was here',
-          chance: '44%'
+          chance: 44
         },
         {
           coordinate: {
@@ -50,8 +49,7 @@ export default class Home extends React.Component {
             longitude: -122.400632
           },
           title: 'SF MOMA',
-          description: 'Much art',
-          chance: '33%'
+          chance: 33
         }
       ],
       region: {
@@ -89,12 +87,17 @@ export default class Home extends React.Component {
         loading: true
       });
       // send base 64 image to server here //
-      axios.post('https://snapmap-syde322.herokuapp.com/preprocessImage', {
-        preprocessedImage: [{
-          pp_IMG: result.base64
+      const imgBase64 = 'data:image/jpeg;base64,' + result.base64
+      const imgKey = imgBase64.replace(/\s/g,'').replace(/["']/g,'').replace(/\//g,'').substring(50,250);
+      console.log(result)
+      axios.post('https://snapmap-syde322.herokuapp.com/imgData', {
+        "postProcessedImage": [{
+          "pp_ID": imgKey,
+          "pp_IMG": imgBase64
         }]
       })
       .then((response) => {
+        console.log(response)
         this.setState({
           image: {
             uri: result.uri,
@@ -102,7 +105,9 @@ export default class Home extends React.Component {
           error: null,
           loading: false
         });
-        this.updateResults() // update region and locations
+        if (response.data.length > 0) {
+          this.updateResults(response.data)
+        }
       })
       .catch((error) => {
         this.setState({
@@ -113,8 +118,31 @@ export default class Home extends React.Component {
     }
   };
 
-  updateResults() {
+  updateResults(data) {
     // order results, and set new state
+    const region = {
+      latitude: data[0].lat,
+      longitude: data[0].lng,
+      latitudeDelta: 0.0042,
+      longitudeDelta: 0.0041
+    }
+    const locations = []
+
+    map(data, (location,key) => {
+      let locData = {
+        coordinate: {
+          latitude: location.lat,
+          longitude: location.lng
+        },
+        title: location.description,
+        chance: location.score
+      }
+      locations.push(locData);
+    });
+    this.setState({
+      locations,
+      region
+    })
   }
 
   render() {

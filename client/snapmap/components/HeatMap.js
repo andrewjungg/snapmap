@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import { MapView } from 'expo';
-import { map } from 'lodash'
+import { map } from 'lodash';
 
 const { width, height } = Dimensions.get('window');
 
@@ -22,13 +22,12 @@ export default class Maps extends React.Component {
         region={region}
       >
         {map(markers, (marker, key) => {
-          const { coordinate, title, description } = marker;
+          const { coordinate, title } = marker;
           return(
             <MapView.Marker
               key={key}
               coordinate={coordinate}
               title={title}
-              description={description}
             />
           );
         })}
