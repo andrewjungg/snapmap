@@ -89,7 +89,7 @@ export default class Home extends React.Component {
       // send base 64 image to server here //
       const imgBase64 = 'data:image/jpeg;base64,' + result.base64
       const imgKey = imgBase64.replace(/\s/g,'').replace(/["']/g,'').replace(/\//g,'').substring(50,250);
-      console.log(result)
+
       axios.post('https://snapmap-syde322.herokuapp.com/imgData', {
         "postProcessedImage": [{
           "pp_ID": imgKey,
@@ -97,7 +97,6 @@ export default class Home extends React.Component {
         }]
       })
       .then((response) => {
-        console.log(response)
         this.setState({
           image: {
             uri: result.uri,
